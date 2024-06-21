@@ -1,4 +1,4 @@
-// console.log('%c HI', 'color: firebrick')
+//console.log('%c HI', 'color: firebrick')
 document.addEventListener('DOMContentLoaded', () => {
     fetchDogs()
 })
@@ -20,13 +20,28 @@ function fetchDogs () {
     fetch(breedUrl) 
         .then(response => response.json())
         .then((breeds) => {
-            const dogBreedsCards = document.getElementById('dog-breeds')
+            const dogBreedsList = document.getElementById('dog-breeds')
             const dogBreeds = Object.keys(breeds.message)
 
             dogBreeds.forEach(dogBreed => {
                 const breedLi = document.createElement('li')
                 breedLi.textContent = dogBreed
-                dogBreedsCards.appendChild(breedLi)
-            })
+                dogBreedsList.appendChild(breedLi)
+                breedLi.addEventListener("click", function() {
+                    breedLi.style.color = "blue"
+                })
+                const dogBreedsDropdown = document.getElementById('breed-dropdown')
+                const dogBreedsLis = document.getElementById('dog-breeds').getElementsByTagName('li');
+                dogBreedsDropdown.addEventListener('change', event => {
+                    const firstLetter = event.target.value
+                    Array.from(dogBreedsLis).forEach(breed => {
+                        if (breed.textContent.startsWith(firstLetter)) {
+                            breed.style.display = 'block'
+                        } else {
+                            breed.style.display = 'none'
+                        }
+                    })
+                })
+            })            
         })
-    }
+}
